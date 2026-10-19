@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đề kiểm tra Tiếng Anh – Câu bị động</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#cfd3d9;font:17px/1.7 "Times New Roman",Times,serif;color:#111}
+.paper{--ink:#16329a;max-width:830px;margin:24px auto 60px;background:#fff;padding:44px 56px 56px;box-shadow:0 6px 28px rgba(0,0,0,.3)}
+.head{display:flex;justify-content:space-between;gap:20px;text-align:center;border-bottom:2px solid #111;padding-bottom:12px}
+.head div{flex:1;font-size:16px}
+.head b{display:block;text-transform:uppercase}
+h1{text-align:center;font-size:22px;margin:18px 0 2px;text-transform:uppercase}
+.info{display:flex;flex-wrap:wrap;gap:8px 20px;margin:14px 0}
+.info label{flex:1 1 200px;white-space:nowrap;display:flex;gap:6px}
+.info input{flex:1;min-width:0;border:0;border-bottom:1px dotted #111;font:17px "Times New Roman",serif;background:transparent;outline:0}
+.note{border:1px solid #111;padding:8px 14px;font-size:15.5px;margin:10px 0 18px}
+h2{font-size:17px;margin:24px 0 8px;text-transform:uppercase}
+.q{margin:0 0 12px;position:relative;padding-right:34px}
+.q .s{font-weight:600}
+.spk{border:0;background:#eef0f4;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;vertical-align:middle}
+.ans{display:flex;align-items:baseline;gap:8px;border-bottom:1px dotted #111;font:18px "Segoe Script","Comic Sans MS","Bradley Hand",cursive;color:var(--ink)}
+.ans:focus-within{background:#f3f6ff}
+.hint{white-space:nowrap;font:17px "Times New Roman",Times,serif;color:#111;user-select:none;-webkit-user-select:none;pointer-events:none}
+.q input[type=text]{flex:1;min-width:0;border:0;background:transparent;font:inherit;color:inherit;padding:4px 2px;outline:0}
+.sw{display:flex;gap:6px;align-items:center}
+.hud .sw button{width:20px;height:20px;padding:0;border-radius:50%;border:2px solid #fff}
+.hud .sw button.on{outline:2px solid #fff;outline-offset:2px}
+.exp{font:15px "Times New Roman",serif;color:#c0141b;margin-top:2px}
+.exp label{display:block;color:#555;cursor:pointer}
+.mk{font-weight:700;font-size:20px}
+.q.right .s{color:#0a6b2d}.q.wrong .s{color:#c0141b}
+.end{text-align:center;font-weight:700;margin-top:30px;letter-spacing:.2em}
+.res{display:flex;align-items:center;justify-content:space-between;gap:16px;border:2px solid #c0141b;color:#c0141b;padding:12px 18px;margin:16px 0;font-size:16px}
+.res b{font:700 40px "Segoe Script","Comic Sans MS",cursive;border:3px solid #c0141b;border-radius:50%;padding:10px 18px;transform:rotate(-6deg);white-space:nowrap}
+.btns{display:flex;gap:10px;justify-content:center;margin-top:24px}
+button.main{font:700 16px system-ui,sans-serif;background:#16329a;color:#fff;border:0;padding:12px 26px;border-radius:4px;cursor:pointer}
+.hud{position:fixed;top:10px;right:10px;background:#111;color:#fff;border-radius:8px;padding:8px 12px;font:600 14px system-ui,sans-serif;display:flex;gap:12px;align-items:center;z-index:5;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.hud button{background:transparent;border:1px solid #888;color:#fff;border-radius:6px;cursor:pointer;padding:2px 8px;font-size:14px}
+#timer.low{color:#ff6b6b}
+.ov{position:fixed;inset:0;background:rgba(15,20,35,.85);display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
+.ov div{background:#fff;max-width:440px;padding:30px;text-align:center;border-radius:6px}
+.hide{display:none!important}
+#sync{text-align:center;font:600 15px system-ui,sans-serif;margin:-6px 0 14px;color:#333}
+#sync button{padding:6px 14px;font-size:14px;margin-left:8px}
+button:focus-visible,input:focus-visible{outline:3px solid #16329a}
+@media(max-width:640px){.paper{margin:0;padding:22px 16px 40px}.head{flex-direction:column;gap:6px}.hud{top:auto;bottom:10px}}
+@media print{body{background:#fff}.paper{box-shadow:none;margin:0}.hud,.ov,.btns,.spk{display:none!important}}
+</style>
+</head>
+<body>
+<div class="ov" id="ov"><div><h1 style="margin-top:0">Sẵn sàng làm bài?</h1><p>Đề gồm 50 câu, thời gian 60 phút. Bấm nút để bắt đầu tính giờ và bật âm thanh. Bạn có thể bấm 🔊 cạnh mỗi câu để nghe đọc câu hỏi.</p><button class="main" id="go">Bắt đầu làm bài</button></div></div>
+<div class="hud"><span id="timer">⏱ 60:00</span><span id="cnt">0/50</span><span class="sw" title="Đổi màu mực viết">✒<button data-c="#16329a" style="background:#16329a" class="on" aria-label="Mực xanh dương"></button><button data-c="#111111" style="background:#111" aria-label="Mực đen"></button><button data-c="#6a2c91" style="background:#6a2c91" aria-label="Mực tím"></button><button data-c="#0b6b3a" style="background:#0b6b3a" aria-label="Mực xanh lá"></button></span><button id="snd" title="Bật/tắt âm thanh">🔊</button></div>
+<div class="paper">
+<div class="head"><div><b>Đề kiểm tra Tiếng Anh</b>Chuyên đề: Câu bị động và chủ động</div><div><b>Mã đề: 101</b>Thời gian: 60 phút<br>(không kể thời gian phát đề)</div></div>
+<h1>Chuyển câu chủ động ↔ bị động</h1>
+<div class="info"><label>Họ và tên: <input type="text" id="nm" autocomplete="name" maxlength="40"></label><label>Lớp: <input type="text" id="cl" maxlength="20"></label></div>
+<div class="note"><b>Hướng dẫn:</b> Viết lại mỗi câu sau theo yêu cầu, gõ vào dòng kẻ bên dưới. Phần gợi ý có mũi tên (→) là phần mở đầu cố định của câu, bạn chỉ gõ phần còn lại. Không phân biệt chữ hoa, chữ thường và dấu câu. Bài chỉ được chấm sau khi nộp.</div>
+<div id="result" class="res hide"></div>
+<div id="sync" class="hide"></div>
+<div id="qs"></div>
+<div class="end">— HẾT —</div>
+<div class="btns"><button class="main" id="submit">Nộp bài</button><button class="main hide" id="again">Làm lại</button></div>
+</div>
+<script>
+const Q=[
+["Tom writes a letter.","A letter is written (by Tom)."],
+["She is cooking dinner.","Dinner is being cooked (by her)."],
+["They have finished the work.","The work has been finished (by them)."],
+["He broke the window yesterday.","The window was broken (by him) yesterday."],
+["The workers were building a house.","A house was being built (by the workers)."],
+["She had written the report.","The report had been written (by her)."],
+["They will open a new shop.","A new shop will be opened (by them)."],
+["My mother will have cooked the meal.","The meal will have been cooked (by my mother)."],
+["He is going to buy a car.","A car is going to be bought (by him)."],
+["You must finish the homework.","The homework must be finished (by you)."],
+["They should have told him the truth.","He should have been told the truth (by them).|The truth should have been told to him (by them)."],
+["She didn't clean the room.","The room wasn't cleaned (by her)."],
+["Did he break the window?","Was the window broken (by him)?"],
+["Does she clean the room?","Is the room cleaned (by her)?"],
+["Will they build a bridge?","Will a bridge be built (by them)?"],
+["Who wrote this novel?","By whom was this novel written?|Who was this novel written by?"],
+["What did he buy?","What was bought (by him)?"],
+["She gave me a book.","I was given a book (by her).|A book was given to me (by her)."],
+["They sent her a gift.","She was sent a gift (by them).|A gift was sent to her (by them)."],
+["My boss made me work late.","I was made to work late (by my boss)."],
+["They saw him leave.","He was seen to leave (by them)."],
+["They looked after the baby.","The baby was looked after (by them)."],
+["He turned off the light.","The light was turned off (by him)."],
+["People say that he is rich.","It is said that he is rich.|He is said to be rich."],
+["Open the door.","Let the door be opened.|The door should be opened."],
+["Nobody can solve this problem.","This problem can't be solved."],
+["The chef is preparing the meal.","The meal is being prepared (by the chef)."],
+["The police have arrested the thieves.","The thieves have been arrested (by the police)."],
+["They didn't invite me.","I wasn't invited (by them)."],
+["The teacher is giving the students homework.","The students are being given homework (by the teacher).|Homework is being given to the students (by the teacher)."],
+["A letter is written by Tom.","Tom writes a letter."],
+["The cake was eaten by the kids.","The kids ate the cake."],
+["The road is being repaired by the workers.","The workers are repairing the road."],
+["The report has been finished by Anna.","Anna has finished the report."],
+["A bridge will be built by the company.","The company will build a bridge."],
+["The window was broken by Peter.","Peter broke the window."],
+["The house had been painted by my father.","My father had painted the house."],
+["English is spoken by many people.","Many people speak English."],
+["The song was being sung by the girls.","The girls were singing the song."],
+["This problem must be solved by us.","We must solve this problem."],
+["The thief was caught by the police.","The police caught the thief."],
+["The tickets have been sold by the agent.","The agent has sold the tickets."],
+["The meal will have been cooked by my sister.","My sister will have cooked the meal."],
+["A speech is going to be made by the mayor.","The mayor is going to make a speech."],
+["Was the window broken by him?","Did he break the window?"],
+["Is the room cleaned by her every day?","Does she clean the room every day?"],
+["By whom was the book written?","Who wrote the book?"],
+["The letter wasn't written by Tom.","Tom didn't write the letter."],
+["He was given a prize by the committee.","The committee gave him a prize.|The committee gave a prize to him."],
+["The children are taught by Ms. Lan.","Ms Lan teaches the children."]
+];
+const H=["A letter","Dinner","The work","The window","A house","The report","A new shop","The meal","A car","The homework","He","The room","Was the window","Is the room","Will a bridge","By whom","What","I","She","I","He","The baby","The light","It","Let the door","This problem","The meal","The thieves","I","The students","Tom","The kids","The workers","Anna","The company","Peter","My father","Many people","The girls","We","The police","The agent","My sister","The mayor","Did he","Does she","Who","Tom","The committee","Ms Lan"];
+const $=id=>document.getElementById(id);
+const has=i=>$("a"+i).value.trim().length>0;
+let done=false,started=false,left=3600,tm,ok=[],snd=true,ac,lastK=0;
+function beep(f,d,t,v,delay){if(!snd)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain(),s=ac.currentTime+(delay||0);o.type=t||"sine";o.frequency.value=f;g.gain.setValueAtTime(v||.15,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g);g.connect(ac.destination);o.start(s);o.stop(s+d);}catch(e){}}
+const tune=a=>a.forEach((n,i)=>beep(n,.28,"triangle",.18,i*.15));
+const sfx={key:()=>beep(1100,.03,"square",.03),start:()=>tune([523,659,784]),warn:()=>{beep(880,.15,"sawtooth",.1);beep(880,.15,"sawtooth",.1,.25);},submit:()=>tune([784,659,523]),pass:()=>tune([523,659,784,1047]),fail:()=>tune([392,349,294,262])};
+function speak(t){if(!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.9;speechSynthesis.speak(u);}
+function norm(s){return s.toLowerCase().replace(/[’‘]/g,"'").replace(/\bcannot\b/g,"can not").replace(/can't/g,"can not").replace(/won't/g,"will not").replace(/n't\b/g," not").replace(/[^a-z0-9' ]/g," ").replace(/'/g,"").replace(/\s+/g," ").trim();}
+function variants(a){const out=[];a.split("|").forEach(v=>{const m=v.match(/\(([^)]*)\)/);if(m){out.push(norm(v.replace(m[0]," ")));out.push(norm(v.replace(m[0],m[1])));}else out.push(norm(v));});return out;}
+function show(a){return a.split("|").map(v=>v.replace(/\(([^)]*)\)/,"[$1]")).join("  /  ");}
+function render(){
+  let h="";
+  Q.forEach((q,i)=>{
+    if(i===0)h+="<h2>Phần I. Chuyển các câu sau sang câu bị động (Câu 1–30)</h2>";
+    if(i===30)h+="<h2>Phần II. Chuyển các câu sau sang câu chủ động (Câu 31–50)</h2>";
+    h+='<div class="q" id="q'+i+'"><div><b>Câu '+(i+1)+'.</b> <span class="s">'+q[0]+'</span> <button class="spk" data-i="'+i+'" title="Nghe đọc câu" aria-label="Nghe câu '+(i+1)+'">🔊</button></div><div class="ans"><span class="hint">→ '+H[i]+'</span><input type="text" id="a'+i+'" value="" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Gõ tiếp sau chữ gợi ý '+H[i]+', câu '+(i+1)+'"></div><div class="exp hide" id="e'+i+'"></div></div>';
+  });
+  $("qs").innerHTML=h;
+  document.querySelectorAll(".spk").forEach(b=>b.onclick=()=>speak(Q[+b.dataset.i][0]));
+  Q.forEach((_,i)=>{const a=$("a"+i);
+    a.oninput=upd;
+    a.onkeydown=e=>{if(e.key==="Enter"){const n=$("a"+(i+1));if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length);}}else{const t=Date.now();if(t-lastK>70){sfx.key();lastK=t;}}};
+  });
+}
+function filled(){return Q.filter((_,i)=>has(i)).length;}
+function upd(){$("cnt").textContent=filled()+"/50";}
+function tick(){
+  left--;const m=Math.floor(left/60),s=left%60;
+  $("timer").textContent="⏱ "+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  $("timer").classList.toggle("low",left<=300);
+  if(left===300||left===60)sfx.warn();
+  if(left<=0)submit(true);
+}
+function score(){
+  const sc=ok.filter(Boolean).length,n=filled(),w=n-Q.filter((_,i)=>ok[i]&&has(i)).length;
+  const nm=$("nm").value.trim();
+  $("result").innerHTML="<div>"+(nm?"Thí sinh: <b style='font:inherit;border:0;padding:0;transform:none;display:inline'>"+nm.replace(/</g,"&lt;")+"</b><br>":"")+"Đúng "+sc+"/50 câu · Sai "+w+" · Bỏ trống "+(50-n)+"<br>Xếp loại: "+(sc>=45?"Xuất sắc":sc>=35?"Khá tốt":sc>=25?"Đạt":"Cần ôn lại")+"</div><b>"+(sc/5).toFixed(1)+"/10</b>";
+  return sc;
+}
+function submit(force){
+  if(done||!started)return;
+  const n=filled();
+  done=true;clearInterval(tm);if(window.speechSynthesis)speechSynthesis.cancel();
+  Q.forEach((q,i)=>{
+    const inp=$("a"+i),v=has(i)?norm(inp.value):"",full=has(i)?norm(H[i]+" "+inp.value):"",vs=variants(q[1]);
+    ok[i]=!!v&&(vs.includes(full)||vs.includes(v));inp.disabled=true;
+    $("q"+i).classList.add(ok[i]?"right":"wrong");
+    const e=$("e"+i);e.classList.remove("hide");
+    e.innerHTML='<span class="mk">'+(ok[i]?"✓":"✗")+"</span> "+(ok[i]?"":(v?"":"Chưa trả lời. ")+"Đáp án: "+show(q[1]))+(ok[i]?"":'<label><input type="checkbox" data-i="'+i+'"> Câu trả lời của tôi cũng đúng (tính điểm)</label>');
+  });
+  document.querySelectorAll("input[type=checkbox]").forEach(c=>c.onchange=()=>{
+    const i=+c.dataset.i;ok[i]=c.checked;
+    $("q"+i).classList.toggle("right",c.checked);$("q"+i).classList.toggle("wrong",!c.checked);
+    $("e"+i).firstChild.textContent=c.checked?"✓":"✗";score();});
+  const sc=score();sync(sc);
+  $("result").classList.remove("hide");$("submit").classList.add("hide");$("again").classList.remove("hide");
+  sfx.submit();setTimeout(()=>sc>=25?sfx.pass():sfx.fail(),600);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+async function sync(sc){
+  const el=$("sync");el.classList.remove("hide");el.textContent="Đang gửi kết quả lên hệ thống...";
+  const d={name:$("nm").value.trim()||"(chưa ghi tên)",cls:$("cl").value.trim(),score:+(sc/5).toFixed(1),correct:sc,blank:50-filled(),timeLeft:left,answers:Q.map((q,i)=>has(i)?H[i]+" "+$("a"+i).value.trim():"")};
+  let good=false;
+  if(window.sendResult)good=await window.sendResult(d);
+  el.innerHTML=good?"✓ Đã gửi kết quả lên hệ thống.":'✗ Chưa gửi được kết quả (kiểm tra mạng). <button class="main" id="retry">Gửi lại</button>';
+  if(!good)$("retry").onclick=()=>sync(sc);
+}
+$("go").onclick=()=>{started=true;$("ov").classList.add("hide");sfx.start();tm=setInterval(tick,1000);$("a0").focus();$("a0").setSelectionRange($("a0").value.length,$("a0").value.length);};
+$("submit").onclick=()=>submit(false);
+$("again").onclick=()=>location.reload();
+document.querySelectorAll(".sw button").forEach(b=>b.onclick=()=>{document.querySelector(".paper").style.setProperty("--ink",b.dataset.c);document.querySelectorAll(".sw button").forEach(x=>x.classList.toggle("on",x===b));beep(700,.06,"sine",.08);});
+$("snd").onclick=()=>{snd=!snd;$("snd").textContent=snd?"🔊":"🔇";};
+render();upd();
+</script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,collection,addDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const app=initializeApp({
+  apiKey:"AIzaSyCL6EwjUy5RDiRbaYa1pxSoNhm-EJMm_iY",
+  authDomain:"dethitienganh-c368d.firebaseapp.com",
+  projectId:"dethitienganh-c368d",
+  storageBucket:"dethitienganh-c368d.firebasestorage.app",
+  messagingSenderId:"781348456572",
+  appId:"1:781348456572:web:bf7003310e847cebe8e1f9"
+});
+const db=getFirestore(app);
+window.sendResult=async d=>{
+  try{
+    await addDoc(collection(db,"results"),{...d,time:serverTimestamp()});
+    try{await addDoc(collection(db,"leaderboard"),{name:d.name,cls:d.cls,score:d.score,correct:d.correct,timeLeft:d.timeLeft,time:serverTimestamp()});}catch(e){console.error(e);}
+    return true;}
+  catch(e){console.error(e);return false;}
+};
+</script>
+</body>
+</html>
